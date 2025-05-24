@@ -11,7 +11,6 @@ export class linkedList {
         if(this.headNode == null){
             this.element = new Node(value)
             this.headNode = this.element
-            this.tail1 = this.element
         }else {
             let j = this.element
             while(j.nextNode != null){
