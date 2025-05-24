@@ -4,34 +4,36 @@ class Node {
         this.nextNode = nextNode
     }
 }
-class linkedList {
+export class linkedList {
     element
-    head = null
-    tail = null
+    headNode = null
     append(value){
-        if(this.head == null){
+        if(this.headNode == null){
             this.element = new Node(value)
-            this.head = this.element
-            this.tail = this.element
+            this.headNode = this.element
+            this.tail1 = this.element
         }else {
-            this.element.nextNode = new Node(value)
-            this.tail = this.element
+            let j = this.element
+            while(j.nextNode != null){
+                j = j.nextNode
+            }   
+            j.nextNode = new Node(value)
         }
     }
     prepend(value){
-        if(this.head == null){
-            throw new Error("Head is null")
+        if(this.headNode == null){
+            throw new Error("List is empty")
         }else {
             let element1 = new Node(value)
-            element1.nextNode = this.element
-            this.head = element1
+            element1.nextNode = this.headNode
+            this.headNode = element1
         }
     }
     size(){
-        if(this.head == null){
+        if(this.headNode == null){
             throw new Error("List is empty")
         }else {
-            let j = this.head
+            let j = this.headNode
             let c = 0
             while(j != null){
                 j = j.nextNode
@@ -41,36 +43,37 @@ class linkedList {
         }
     }
     head() {
-        if(this.head == null){
+        if(this.headNode == null){
             throw new Error("List is empty")
         }else {
-            return this.head.value
+            return this.headNode.value
         }
     }
     tail(){
-        if(this.head == null){
+        if(this.headNode == null){
             throw new Error("List is empty")
         }else {
-            return this.tail.value
+            let j = this.headNode
+            while(j.nextNode != null){
+                j = j.nextNode
+            }
+            return j.value
         }
     }
     at(index){
-        if(this.head == null){
+        if(this.headNode == null){
             throw new Error("List is empty")
         }else {
             let c = 0
+            let j = this.headNode
             let value = null
-            let j = this.head
-            if(index == 0){
-                value = j.value
-            }else {
-                while(j != null){
-                    j = j.nextNode
-                    if(c == index){
-                        value = j.value
-                        break
-                    }
+            while(j != null){
+                if(c == index){
+                    value = j.value
+                    break
                 }
+                c++
+                j = j.nextNode
             }
             if(value == null){
                 throw new Error("Index not in range")
@@ -80,14 +83,22 @@ class linkedList {
         }
     }
     pop() {
-
+        if(this.headNode == null){
+            throw new Error("List is empty")
+        }else {
+            let j = this.headNode
+            while(j.nextNode.nextNode != null){
+                j = j.nextNode
+            }
+            j.nextNode = null
+        }
     }
     contains(value){
-        if(this.head == null){
+        if(this.headNode == null){
             throw new Error("List is empty")
         }else {
             let bool = false
-            let j = this.head
+            let j = this.headNode
             while(j != null){
                 if(j.value == value){
                     bool = true
@@ -95,15 +106,16 @@ class linkedList {
                 }
                 j = j.nextNode
             }
+            return bool
         }
     }
     find(value){
-        if(this.head == null){
+        if(this.headNode == null){
             throw new Error("List is empty")
         }else {
             let index = null
             let c = 0
-            let j = this.head
+            let j = this.headNode
             while(j != null){
                 if(j.value == value){
                     index = c
@@ -115,6 +127,21 @@ class linkedList {
         }
     }
     toString(){
-        
+        if(this.headNode == null){
+            throw new Error("List is empty")
+        }else {
+            let j = this.headNode
+            let nodeValues = []
+            while(j != null){
+                nodeValues.push(j.value)
+                j = j.nextNode
+            }
+            let cs = ''
+            for(let value of nodeValues){
+                cs += `( ${value} ) -> `
+            }
+            cs += 'null'
+            return cs
+        }
     }
 }
